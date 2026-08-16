@@ -1,0 +1,113 @@
+# Obligatorisk Oppgave 1 - Bussrutesystem for Gjøvik
+
+## Beskrivelse
+
+Dette programmet administrerer bussruter i Gjøvik med 11 forskjellige busstopp. Programmet kan:
+
+- Opprette nye ruter
+- Slette ruter (enkeltvis eller alle)
+- Vise alle ruter
+- Vise alle busstopp
+
+## Struktur
+
+### Datastrukturer
+
+- **Rute**: En struct som inneholder rutenummer, liste over stoppesteder, og total kjøretid
+- **gRuter**: En vector med pekere til alle rutene
+- **gBusstopp**: En konstant vector med navn på alle 11 busstopp
+- **gMinutter**: En 2D-array med kjøretider mellom stoppesteder (0 = ingen direkte forbindelse)
+
+### Funksjoner
+
+1. **skrivMeny()**: Viser hovedmenyen
+2. **skrivStopp()**: Viser alle busstopp nummerert fra 1-11
+3. **skrivRuter()**: Viser alle registrerte ruter med deres data
+4. **skrivNesteStoppesteder(stopp)**: Viser mulige neste stoppesteder fra et gitt stopp
+5. **nyRute()**: Oppretter en ny rute
+6. **ruteLesData(rute)**: Leser inn data for en rute (returnerer true hvis gyldig)
+7. **ruteSkrivData(rute)**: Skriver ut data for én rute
+8. **slettRute()**: Lar brukeren slette rute(r)
+9. **slett()**: Sletter alle ruter
+10. **slett(nr)**: Sletter en spesifikk rute
+
+## Kompilering
+
+For å kompilere programmet, trenger du filen `LesData2.h` i samme katalog. Deretter:
+
+```bash
+g++ -o oblig1 oblig1.cpp -std=c++11
+./oblig1
+```
+
+## Bruk av programmet
+
+### Hovedmeny
+
+- **N**: Opprett ny rute
+- **S**: Slett rute
+- **A**: Vis alle ruter
+- **B**: Vis alle busstopp
+- **Q**: Avslutt
+
+### Opprette ny rute
+
+1. Velg kommando 'N'
+2. Oppgi rutenummer (1-999)
+3. Velg startstoppested (1-11)
+4. Velg neste stoppested blant de tilgjengelige
+5. Fortsett til du velger 0 (ferdig)
+6. Ruten må ha minst 2 stoppesteder
+
+### Slette rute
+
+1. Velg kommando 'S'
+2. Se oversikt over alle ruter
+3. Velg:
+   - **-1**: Sletter alle ruter
+   - **0**: Ingen sletting
+   - **1 eller høyere**: Sletter den spesifikke ruten
+
+## Busstopp i Gjøvik
+
+1. Skysstasjonen
+2. Fahlstroms plass
+3. Sykehuset
+4. Gjovik stadion
+5. Bergslia
+6. Overby
+7. Nybrua
+8. NTNU
+9. Kallerud
+10. Hunndalen
+11. Mustad fabrikker
+
+## Eksempel på kjøretider
+
+- Skysstasjonen ↔ Fahlstroms plass: 3 min
+- Fahlstroms plass ↔ Mustad fabrikker: 4 min
+- Bergslia ↔ Overby: 2 min
+- Nybrua ↔ NTNU: 2 min
+
+## Viktige implementasjonsdetaljer
+
+1. **Indeksering**:
+   - Intern indeksering er 0-basert
+   - Brukergrensesnittet viser 1-basert nummerering
+2. **Minnehåndtering**:
+   - Ruter opprettes med `new` og slettes med `delete`
+   - Alle ruter slettes automatisk ved programslutt
+3. **Sletting av rute**:
+
+   - Når en rute slettes, flyttes den siste ruten til den slettedes plass
+   - Dette optimaliserer sletting fra midten av vectoren
+
+4. **Validering**:
+   - Kun gyldige forbindelser (der gMinutter > 0) kan velges
+   - Ruter må ha minst 2 stoppesteder
+
+## Merknader
+
+- Programmet sjekker ikke for duplikate stoppesteder i samme rute
+- Programmet sjekker ikke om rutenummer allerede eksisterer
+- Kallerud (stopp 8) har ingen utgående forbindelser i dette eksempelet
